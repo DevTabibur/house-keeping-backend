@@ -7,6 +7,7 @@ import httpStatus from "http-status";
 const getDashboardAnalytics = catchAsync(
   async (req: Request, res: Response) => {
     const result = await AnalyticsService.getDashboardAnalytics();
+
     sendSuccessResponse(res, {
       statusCode: httpStatus.OK,
       message: "Dashboard analytics fetched successfully",
