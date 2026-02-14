@@ -11,6 +11,7 @@ import { TagRoute } from "../modules/blog/tag/tag.route";
 import { SystemSettingsRoute } from "../modules/settings/system-settings/system-settings.routes";
 import { SentMessageRoute } from "../modules/sent-message/sent-message.routes";
 import { BookingRoute } from "../modules/booking/booking.routes";
+import { ServiceRoutes } from "../modules/services/service.routes";
 
 const router = express.Router();
 
@@ -66,6 +67,10 @@ const allRoutes = [
   {
     path: "/booking",
     route: BookingRoute,
+  },
+  {
+    path: "/services",
+    route: ServiceRoutes,
   },
 ];
 
