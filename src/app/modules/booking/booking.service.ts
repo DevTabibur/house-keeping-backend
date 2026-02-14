@@ -1,7 +1,7 @@
 import { BookingModel } from "./booking.model";
 import { BookingInterface } from "./booking.validation";
 
-const createBooking = async (bookingData: BookingInterface) => {
+const createBooking = async (bookingData: BookingInterface, userId: string) => {
   const {
     service,
     serviceId,
@@ -13,6 +13,7 @@ const createBooking = async (bookingData: BookingInterface) => {
     preferredDate,
     preferredTimeSlots,
   } = bookingData;
+  console.log("users ", userId);
 
   const booking = await BookingModel.create({
     service,
@@ -24,6 +25,7 @@ const createBooking = async (bookingData: BookingInterface) => {
     address,
     preferredDate,
     preferredTimeSlots,
+    userId,
   });
 
   return booking;

@@ -4,26 +4,27 @@ import { BookingService } from "./booking.service";
 import { sendSuccessResponse } from "../../../shared/sendSuccessResponse";
 import httpStatus from "http-status";
 import { createBookingZodSchema } from "./booking.validation";
+import { sendErrorResponse } from "../../../shared/sendError";
 
 const createBookingController = catchAsync(
   async (req: Request, res: Response) => {
     // ✅ Validate data with Zod schema
     const result = createBookingZodSchema.safeParse(req.body);
+    const userId = req.user?.userId;
 
-    if (!result.success) {
-      return res.status(httpStatus.BAD_REQUEST).json({
-        success: false,
-        message: "Validation Error",
-        errors: result.error.errors.map((err) => ({
-          field: err.path.join("."),
-          message: err.message,
-        })),
+    if (!userId) {
+      return sendErrorResponse(res, {
+        statusCode: httpStatus.UNAUTHORIZED,
+        message: "Unauthorized",
       });
     }
 
+    if (!result.success) {
+      return sendErrorResponse(res, result.error);
+    }
+
     // ✅ Data is valid
-    const booking = await BookingService.createBooking(result.data);
-    console.log("books", booking);
+    const booking = await BookingService.createBooking(result.data, userId);
 
     sendSuccessResponse(res, {
       statusCode: httpStatus.OK,
