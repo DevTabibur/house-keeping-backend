@@ -7,7 +7,7 @@ const router = Router();
 
 router.post(
   "/create",
-  //   authGuard(USER_ROLE_ENUM.ADMIN, USER_ROLE_ENUM.GUEST, USER_ROLE_ENUM.EDITOR),
+  authGuard(USER_ROLE_ENUM.ADMIN, USER_ROLE_ENUM.GUEST, USER_ROLE_ENUM.EDITOR),
   BookingController.createBookingController,
 );
 
