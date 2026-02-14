@@ -1,4 +1,5 @@
 import { z } from "zod";
+import mongoose from "mongoose";
 
 export const createBookingZodSchema = z.object({
   service: z
@@ -13,7 +14,10 @@ export const createBookingZodSchema = z.object({
       required_error: "Service ID is required",
       invalid_type_error: "Service ID must be a string",
     })
-    .min(1, "Service ID cannot be empty"),
+    .refine((val) => mongoose.Types.ObjectId.isValid(val), {
+      message: "Invalid Service ID",
+    })
+    .transform((val) => new mongoose.Types.ObjectId(val)),
 
   productOption: z
     .string({
@@ -30,25 +34,29 @@ export const createBookingZodSchema = z.object({
     .min(1, "Duration must be at least 1 hour"),
 
   addOns: z.object({
-    fridge: z.boolean({
-      required_error: "Fridge add-on is required",
-      invalid_type_error: "Fridge must be true or false",
-    }),
+    fridge: z
+      .boolean({
+        invalid_type_error: "Fridge must be true or false",
+      })
+      .default(false), // ✅ default false
 
-    oven: z.boolean({
-      required_error: "Oven add-on is required",
-      invalid_type_error: "Oven must be true or false",
-    }),
+    oven: z
+      .boolean({
+        invalid_type_error: "Oven must be true or false",
+      })
+      .default(false),
 
-    windows: z.boolean({
-      required_error: "Windows add-on is required",
-      invalid_type_error: "Windows must be true or false",
-    }),
+    windows: z
+      .boolean({
+        invalid_type_error: "Windows must be true or false",
+      })
+      .default(false),
 
-    balcony: z.boolean({
-      required_error: "Balcony add-on is required",
-      invalid_type_error: "Balcony must be true or false",
-    }),
+    balcony: z
+      .boolean({
+        invalid_type_error: "Balcony must be true or false",
+      })
+      .default(false),
   }),
 
   extraHours: z
@@ -58,17 +66,27 @@ export const createBookingZodSchema = z.object({
     })
     .min(0, "Extra hours cannot be negative"),
 
-  address: z
-    .string({
-      required_error: "Address is required",
-      invalid_type_error: "Address must be a string",
-    })
-    .min(5, "Address must be at least 5 characters"),
-
-  preferredDate: z.date({
-    required_error: "Preferred date is required",
-    invalid_type_error: "Preferred date must be a valid date",
+  address: z.object({
+    city: z
+      .string({ required_error: "City is required" })
+      .min(1, "City cannot be empty"),
+    line1: z
+      .string({ required_error: "Address line1 is required" })
+      .min(1, "Address line1 cannot be empty"),
+    line2: z.string().optional(),
+    postcode: z
+      .string({ required_error: "Postcode is required" })
+      .min(1, "Postcode cannot be empty"),
   }),
+
+  preferredDate: z.preprocess(
+    (arg) =>
+      typeof arg === "string" || arg instanceof Date ? new Date(arg) : arg,
+    z.date({
+      required_error: "Preferred date is required",
+      invalid_type_error: "Preferred date must be a valid date",
+    }),
+  ),
 
   preferredTimeSlots: z
     .array(
@@ -80,5 +98,5 @@ export const createBookingZodSchema = z.object({
     .min(1, "At least one time slot is required"),
 });
 
-// ✅ Keep the type export for TypeScript typing
+// ✅ Type for TypeScript
 export type BookingInterface = z.infer<typeof createBookingZodSchema>;

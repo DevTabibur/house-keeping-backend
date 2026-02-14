@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { BookingInterface } from "./booking.types";
+import { BookingInterface } from "./booking.validation";
 
 const BookingSchema = new Schema<BookingInterface>(
   {
@@ -9,8 +9,9 @@ const BookingSchema = new Schema<BookingInterface>(
     },
 
     serviceId: {
-      type: String,
-      default: null,
+      type: Schema.Types.ObjectId,
+      ref: "Service",
+      required: true,
     },
 
     productOption: {
@@ -49,18 +50,33 @@ const BookingSchema = new Schema<BookingInterface>(
     },
 
     address: {
-      type: String,
-      default: null,
+      city: {
+        type: String,
+        required: true,
+      },
+      line1: {
+        type: String,
+        required: true,
+      },
+      line2: {
+        type: String,
+        default: "",
+      },
+      postcode: {
+        type: String,
+        required: true,
+      },
     },
 
     preferredDate: {
       type: Date,
-      default: null,
+      required: true,
     },
 
     preferredTimeSlots: {
       type: [String],
       default: [],
+      required: true,
     },
   },
   {

@@ -10,6 +10,7 @@ import { CommentRoute } from "../modules/blog/comment/comment.route";
 import { TagRoute } from "../modules/blog/tag/tag.route";
 import { SystemSettingsRoute } from "../modules/settings/system-settings/system-settings.routes";
 import { SentMessageRoute } from "../modules/sent-message/sent-message.routes";
+import { BookingRoute } from "../modules/booking/booking.routes";
 
 const router = express.Router();
 
@@ -61,6 +62,10 @@ const allRoutes = [
   {
     path: "/system-settings",
     route: SystemSettingsRoute,
+  },
+  {
+    path: "/booking",
+    route: BookingRoute,
   },
 ];
 

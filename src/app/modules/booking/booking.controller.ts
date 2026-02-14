@@ -23,6 +23,7 @@ const createBookingController = catchAsync(
 
     // ✅ Data is valid
     const booking = await BookingService.createBooking(result.data);
+    console.log("books", booking);
 
     sendSuccessResponse(res, {
       statusCode: httpStatus.OK,
