@@ -5,9 +5,10 @@ const createService = async (
   serviceData: ServiceInterface,
   userId: string,
 ): Promise<ServiceInterface> => {
-  const { title, image, description, checklist } = serviceData;
+  const { category, title, image, description, checklist } = serviceData;
 
   const service = await ServiceModel.create({
+    category,
     title,
     image,
     description,

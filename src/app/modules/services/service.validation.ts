@@ -1,6 +1,15 @@
 import { z } from "zod";
 
 export const createServiceZodSchema = z.object({
+  category: z
+    .string({
+      required_error: "Category is required",
+      invalid_type_error: "Category must be a string",
+    })
+    .trim()
+    .min(3, "Category must be at least 3 characters")
+    .max(100, "Category cannot exceed 100 characters"),
+
   title: z
     .string({
       required_error: "Service title is required",

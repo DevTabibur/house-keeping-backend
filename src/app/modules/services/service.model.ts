@@ -3,6 +3,15 @@ import { ServiceInterface } from "./service.validation";
 
 const ServiceSchema = new Schema<ServiceInterface>(
   {
+    category: {
+      type: String,
+      required: [true, "Category is required"],
+      trim: true,
+      minlength: 3,
+      maxlength: 100,
+      index: true,
+    },
+
     title: {
       type: String,
       required: [true, "Service title is required"],
