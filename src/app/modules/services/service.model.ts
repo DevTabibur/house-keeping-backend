@@ -1,42 +1,49 @@
-import { Schema, model } from "mongoose";
-import { IService } from "./service.interface";
-import { SERVICE_STATUS, SERVICE_STATUS_ARRAY } from "./service.constant";
+import mongoose, { model, Schema } from "mongoose";
+import { ServiceInterface } from "./service.validation";
 
-const serviceSchema = new Schema<IService>(
+const ServiceSchema = new Schema<ServiceInterface>(
   {
-    img: {
+    category: {
       type: String,
-    },
-    name: {
-      type: String,
-      required: true,
+      required: [true, "Category is required"],
       trim: true,
-      lowercase: true,
-      unique: true,
+      minlength: 3,
+      maxlength: 100,
+      index: true,
     },
+
+    title: {
+      type: String,
+      required: [true, "Service title is required"],
+      trim: true,
+      minlength: 3,
+      maxlength: 200,
+      index: true,
+    },
+
+    image: {
+      type: String,
+      required: [true, "Image is required"],
+      trim: true,
+    },
+
     description: {
       type: String,
+      required: [true, "Description is required"],
+      trim: true,
+      minlength: 10,
+      maxlength: 5000,
     },
-    pricePerHour: {
-      type: Number,
-      required: true,
-    },
-    priceWithProducts: {
-      type: Number,
-      required: true,
-    },
-    priceWithoutProducts: {
-      type: Number,
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: SERVICE_STATUS_ARRAY,
-      default: SERVICE_STATUS.ACTIVE,
+
+    checklist: {
+      type: [String],
+      required: [true, "Checklist is required"],
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
-const ServiceModel = model<IService>("Service", serviceSchema);
-export default ServiceModel;
+export const ServiceModel =
+  mongoose.models.Service || model<ServiceInterface>("Service", ServiceSchema);
