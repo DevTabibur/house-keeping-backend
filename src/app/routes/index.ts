@@ -12,7 +12,7 @@ import { SystemSettingsRoute } from "../modules/settings/system-settings/system-
 import { SentMessageRoute } from "../modules/sent-message/sent-message.routes";
 import { BookingRoute } from "../modules/booking/booking.routes";
 import { BillingRoute } from "../modules/billing/billing.routes";
-import { ServiceRoute } from "../modules/services/service.routes";
+import { ServiceRoutes } from "../modules/services/service.routes";
 
 const router = express.Router();
 
@@ -27,7 +27,7 @@ const allRoutes = [
   },
   {
     path: "/service",
-    route: ServiceRoute,
+    route: ServiceRoutes,
   },
   {
     path: "/billing",
@@ -76,6 +76,14 @@ const allRoutes = [
   {
     path: "/system-settings",
     route: SystemSettingsRoute,
+  },
+  {
+    path: "/booking",
+    route: BookingRoute,
+  },
+  {
+    path: "/services",
+    route: ServiceRoutes,
   },
 ];
 

@@ -1,40 +1,37 @@
+import catchAsync from "../../../shared/catchAsync";
 import { Request, Response } from "express";
-import httpStatus from "http-status";
 import { BookingService } from "./booking.service";
 import { sendSuccessResponse } from "../../../shared/sendSuccessResponse";
+import httpStatus from "http-status";
+import { createBookingZodSchema } from "./booking.validation";
+import { sendErrorResponse } from "../../../shared/sendError";
 
-const createBooking = async (req: Request, res: Response) => {
-  const result = await BookingService.createBooking(req.body);
+const createBookingController = catchAsync(
+  async (req: Request, res: Response) => {
+    // ✅ Validate data with Zod schema
+    const result = createBookingZodSchema.safeParse(req.body);
+    const userId = req.user?.userId;
 
-  sendSuccessResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    data: result,
-    message: "Booking created successfully",
-  });
-};
+    if (!userId) {
+      return sendErrorResponse(res, {
+        statusCode: httpStatus.UNAUTHORIZED,
+        message: "Unauthorized",
+      });
+    }
 
-const getMyBookings = async (req: Request, res: Response) => {
-  const result = await BookingService.getMyBookings(req.user.id);
+    if (!result.success) {
+      return sendErrorResponse(res, result.error);
+    }
 
-  res.status(httpStatus.OK).json({
-    success: true,
-    data: result,
-  });
-};
+    // ✅ Data is valid
+    const booking = await BookingService.createBooking(result.data as any);
 
-const cancelBooking = async (req: Request, res: Response) => {
-  const result = await BookingService.cancelBooking(req.params.id);
+    sendSuccessResponse(res, {
+      statusCode: httpStatus.OK,
+      message: "Booking created successfully",
+      data: booking,
+    });
+  },
+);
 
-  res.status(httpStatus.OK).json({
-    success: true,
-    message: "Booking canceled",
-    data: result,
-  });
-};
-
-export const BookingController = {
-  createBooking,
-  getMyBookings,
-  cancelBooking,
-};
+export const BookingController = { createBookingController };
