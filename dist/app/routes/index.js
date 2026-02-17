@@ -30,7 +30,7 @@ const allRoutes = [
     },
     {
         path: "/service",
-        route: service_routes_1.ServiceRoute,
+        route: service_routes_1.ServiceRoutes,
     },
     {
         path: "/billing",
@@ -79,6 +79,14 @@ const allRoutes = [
     {
         path: "/system-settings",
         route: system_settings_routes_1.SystemSettingsRoute,
+    },
+    {
+        path: "/booking",
+        route: booking_routes_1.BookingRoute,
+    },
+    {
+        path: "/services",
+        route: service_routes_1.ServiceRoutes,
     },
 ];
 allRoutes.forEach((route) => router.use(route.path, route.route));

@@ -8,25 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServiceService = void 0;
-const service_model_1 = __importDefault(require("./service.model"));
+const service_model_1 = require("./service.model");
 const createService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield service_model_1.default.create(payload);
+    const result = yield service_model_1.ServiceModel.create(payload);
     console.log("result", result);
     return result;
 });
 const getAllServices = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield service_model_1.default.find({ isActive: true }).sort({ createdAt: -1 });
+    return yield service_model_1.ServiceModel.find({ isActive: true }).sort({ createdAt: -1 });
 });
 const updateService = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield service_model_1.default.findByIdAndUpdate(id, payload, { new: true });
+    return yield service_model_1.ServiceModel.findByIdAndUpdate(id, payload, { new: true });
 });
 const deleteService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield service_model_1.default.findByIdAndUpdate(id, { isActive: false }, { new: true });
+    return yield service_model_1.ServiceModel.findByIdAndUpdate(id, { isActive: false }, { new: true });
 });
 exports.ServiceService = {
     createService,

@@ -24,7 +24,7 @@ const createBookingController = catchAsync(
     }
 
     // ✅ Data is valid
-    const booking = await BookingService.createBooking(result.data);
+    const booking = await BookingService.createBooking(result.data as any);
 
     sendSuccessResponse(res, {
       statusCode: httpStatus.OK,

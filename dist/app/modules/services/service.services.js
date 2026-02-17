@@ -8,20 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BillingController = void 0;
-const http_status_1 = __importDefault(require("http-status"));
-const billing_service_1 = require("./billing.service");
-const getMyBillings = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield billing_service_1.BillingService.getMyBillings(req.user.id);
-    res.status(http_status_1.default.OK).json({
-        success: true,
-        data: result,
+exports.Services = void 0;
+const service_model_1 = require("./service.model");
+const createService = (serviceData, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const { category, title, image, description, checklist } = serviceData;
+    const service = yield service_model_1.ServiceModel.create({
+        category,
+        title,
+        image,
+        description,
+        checklist,
+        userId,
     });
+    return service;
 });
-exports.BillingController = {
-    getMyBillings,
-};
+exports.Services = { createService };
