@@ -1,9 +1,9 @@
-import { Router } from "express";
-import { AnalyticsController } from "./analytics.controller";
+// import { Router } from "express";
+// import { AnalyticsController } from "./analytics.controller";
 
-const router = Router();
+// const router = Router();
 
-// router.get("/", AnalyticsController.getAnalytics);
-router.get("/dashboard", AnalyticsController.getDashboardAnalytics);
+// // router.get("/", AnalyticsController.getAnalytics);
+// router.get("/dashboard", AnalyticsController.getDashboardAnalytics);
 
-export const AnalyticsRoute = router;
+// export const AnalyticsRoute = router;

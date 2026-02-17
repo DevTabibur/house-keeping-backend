@@ -1,12 +1,12 @@
+import dotenv from "dotenv";
+dotenv.config();
 import { Server } from "http";
 import { Server as SocketIOServer } from "socket.io";
-import config, { IS_MODE_PROD } from "./config";
 import setupSocketManager from "./app/utils/socketManager";
 import dbConnect from "./app/utils/dbConnect";
 import { errorLogger, logger } from "./shared/logger";
 import app from "./app";
-import dotenv from "dotenv";
-dotenv.config();
+import config, { IS_MODE_PROD } from "./config";
 
 const PORT = config.port || 5000;
 const server = new Server(app);

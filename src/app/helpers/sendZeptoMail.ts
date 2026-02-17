@@ -20,8 +20,8 @@ export async function sendZeptoMail({
   to,
   subject,
   htmlBody,
-  fromName = "Toolinger Admin",
-  fromEmail = "admin@toolinger.com",
+  fromName = "Housekeeping Admin",
+  fromEmail = "admin@housekeeping.com",
 }: SendZeptoMailParams): Promise<any> {
   if (!config.zeptomail?.token || !config.zeptomail?.url) {
     throw new ApiError(

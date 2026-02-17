@@ -16,20 +16,20 @@ const app: Application = express();
 app.use(compression());
 app.use(
   cors({
-    // origin: "*",
-    origin: IS_MODE_PROD
-      ? [
-          "https://toolinger.com",
-          "https://www.toolinger.com",
-          "https://dashboard.toolinger.com",
-        ]
-      : [
-          "https://toolinger.com",
-          "https://www.toolinger.com",
-          "https://dashboard.toolinger.com",
-          "http://localhost:3000",
-          "http://localhost:3001",
-        ],
+    origin: "*",
+    // origin: IS_MODE_PROD
+    //   ? [
+    //       "https://sahousekeeping.com",
+    //       "https://www.sahousekeeping.com",
+    //       "https://dashboard.sahousekeeping.com",
+    //     ]
+    //   : [
+    //       "https://sahousekeeping.com",
+    //       "https://www.sahousekeeping.com",
+    //       "https://dashboard.sahousekeeping.com",
+    //       "http://localhost:3000",
+    //       "http://localhost:3001",
+    //     ],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],

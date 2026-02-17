@@ -3,13 +3,16 @@ import { AuthRoute } from "../modules/auth/auth.routes";
 import { BlogRoute } from "../modules/blog/blog.route";
 import { ContactRoute } from "../modules/contact/contact.routes";
 import { UserRoute } from "../modules/user/user.routes";
-import { AnalyticsRoute } from "../modules/analytics/analytics.routes";
+// import { AnalyticsRoute } from "../modules/analytics/analytics.routes";
 import { CategoryRoute } from "../modules/blog/category/category.routes";
 import { TrashRoute } from "../modules/trash/trash.route";
 import { CommentRoute } from "../modules/blog/comment/comment.route";
 import { TagRoute } from "../modules/blog/tag/tag.route";
 import { SystemSettingsRoute } from "../modules/settings/system-settings/system-settings.routes";
 import { SentMessageRoute } from "../modules/sent-message/sent-message.routes";
+import { BookingRoute } from "../modules/booking/booking.routes";
+import { BillingRoute } from "../modules/billing/billing.routes";
+import { ServiceRoute } from "../modules/services/service.routes";
 
 const router = express.Router();
 
@@ -17,6 +20,18 @@ const allRoutes = [
   {
     path: "/auth",
     route: AuthRoute,
+  },
+  {
+    path: "/booking",
+    route: BookingRoute,
+  },
+  {
+    path: "/service",
+    route: ServiceRoute,
+  },
+  {
+    path: "/billing",
+    route: BillingRoute,
   },
   {
     path: "/blog-category",
@@ -54,10 +69,10 @@ const allRoutes = [
     path: "/sent-message",
     route: SentMessageRoute,
   },
-  {
-    path: "/analytics",
-    route: AnalyticsRoute,
-  },
+  // {
+  //   path: "/analytics",
+  //   route: AnalyticsRoute,
+  // },
   {
     path: "/system-settings",
     route: SystemSettingsRoute,

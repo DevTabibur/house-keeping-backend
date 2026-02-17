@@ -1,6 +1,6 @@
-# Toolinger Backend
+# Housekepping API Backend
 
-Welcome to the backend repository for **Toolinger** – a comprehensive suite of web utility tools including YouTube to MP3/MP4 conversion, URL shortener, audio cutter, plagiarism checker, and more.
+Welcome to the backend repository for **Housekeeping** – a comprehensive suite of web utility tools including YouTube to MP3/MP4 conversion, URL shortener, audio cutter, plagiarism checker, and more.
 
 ---
 
@@ -22,7 +22,7 @@ Welcome to the backend repository for **Toolinger** – a comprehensive suite of
 
 ## Project Overview
 
-Toolinger Backend provides RESTful APIs for a variety of web tools, supporting both free and paid features. The backend is built with Node.js, Express, and MongoDB, and is designed for scalability and maintainability.
+Housekeeping Backend provides RESTful APIs for a variety of web tools, supporting both free and paid features. The backend is built with Node.js, Express, and MongoDB, and is designed for scalability and maintainability.
 
 ---
 
@@ -83,8 +83,8 @@ Toolinger Backend provides RESTful APIs for a variety of web tools, supporting b
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-org/toolinger-backend.git
-   cd toolinger-backend
+   git clone https://github.com/DevTabibur/house-keeping-backend
+   cd Housekeeping-backend
    ```
 
 2. **Install dependencies:**

@@ -2,6 +2,7 @@ export enum USER_ROLE_ENUM {
   ADMIN = "admin",
   GUEST = "guest",
   EDITOR = "editor",
+  USER = "user",
 }
 
 export enum USER_STATUS {

@@ -145,6 +145,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
     message: "Account recovered",
   });
 });
+
 export const AuthController = {
   ChangePassword,
   registerNewUser,

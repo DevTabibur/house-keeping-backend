@@ -13,7 +13,7 @@ export function buildOTPEmailTemplate(params: {
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Toolinger – OTP Verification</title>
+  <title>Housekeeping – OTP Verification</title>
 </head>
 
 <body style="margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, Helvetica, sans-serif;">
@@ -44,7 +44,7 @@ export function buildOTPEmailTemplate(params: {
 
             <!-- Brand Name -->
             <div style="font-size:20px; font-weight:700; color:#ffffff;">
-              Toolinger
+              Housekeeping
             </div>
 
           </td>
@@ -97,7 +97,7 @@ export function buildOTPEmailTemplate(params: {
           <td align="center"
             style="padding:16px; background:#f9fafb; font-size:12px; color:#6b7280;">
             Regards,<br />
-            <strong>Toolinger Team</strong>
+            <strong>Housekeeping Team</strong>
           </td>
         </tr>
 

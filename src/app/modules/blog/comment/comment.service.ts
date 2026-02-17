@@ -28,12 +28,12 @@ const createComment = async (
   }
 
   // Check if blog allows comments
-  if (!blogPost.allowComments) {
-    throw new ApiError(
-      httpStatus.FORBIDDEN,
-      "Comments are disabled for this blog post",
-    );
-  }
+  // if (!blogPost.allowComments) {
+  //   throw new ApiError(
+  //     httpStatus.FORBIDDEN,
+  //     "Comments are disabled for this blog post",
+  //   );
+  // }
 
   // If parent comment exists, verify it
   if (commentData.parentComment) {

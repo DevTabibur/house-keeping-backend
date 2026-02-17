@@ -3,7 +3,7 @@ import { BlogController } from "./blog.controller";
 import uploadMiddleware from "../../middlewares/fileUploadAndConvertToWebP";
 import authGuard from "../../middlewares/authGuard";
 import { USER_ROLE_ENUM } from "../user/user.constant";
- 
+
 const router = Router();
 
 // ** Create a new blog post
@@ -59,7 +59,7 @@ router.get("/:blogId/seo-analytics", BlogController.getBlogSEOAnalytics);
 // router.patch("/admin/guest/blogs/:id/reject")
 
 // Guest Author Profile
-// router.get("/guest/authors/:slug")   // toolinger.com/guest/john-doe
+// router.get("/guest/authors/:slug")   // https://sahousekeeping.com/guest/john-doe
 
 // Blog comment API
 
