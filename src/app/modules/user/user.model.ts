@@ -32,13 +32,9 @@ const userSchema = new Schema<IUser>(
       minlength: 6,
       // select: 0,
     },
-    firstName: {
+    fullName: {
       type: String,
       required: true,
-    },
-    lastName: {
-      type: String,
-      required: false,
     },
     role: {
       type: String,

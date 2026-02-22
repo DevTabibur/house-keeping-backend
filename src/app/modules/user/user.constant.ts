@@ -14,7 +14,7 @@ export enum USER_STATUS {
 
 export const USER_ROLE_ARRAY: string[] = Object.values(USER_ROLE_ENUM);
 
-export const USER_SEARCH_FIELDS = ["firstName", "lastName", "email", "phoneNo"];
+export const USER_SEARCH_FIELDS = ["fullName", "email", "phoneNo"];
 export const USER_FILTER_FIELDS = ["role", "status"];
 
 export type IUserFilters = {

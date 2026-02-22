@@ -2,8 +2,7 @@ export interface IUser {
   email: string;
   password: string;
   status: "active" | "inactive";
-  firstName: string;
-  lastName?: string;
+  fullName: string;
   role?: string;
   avatar?: string;
   rememberMe?: boolean;
