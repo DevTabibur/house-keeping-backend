@@ -100,3 +100,13 @@ export const createBookingZodSchema = z.object({
 
 // ✅ Type for TypeScript
 export type BookingInterface = z.infer<typeof createBookingZodSchema>;
+
+export const updateBookingZodSchema = createBookingZodSchema.partial().extend({
+  serviceId: z
+    .string()
+    .refine((val) => mongoose.Types.ObjectId.isValid(val), {
+      message: "Invalid Service ID",
+    })
+    .transform((val) => new mongoose.Types.ObjectId(val))
+    .optional(),
+});

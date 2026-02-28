@@ -13,10 +13,15 @@ import { SentMessageRoute } from "../modules/sent-message/sent-message.routes";
 import { BookingRoute } from "../modules/booking/booking.routes";
 import { BillingRoute } from "../modules/billing/billing.routes";
 import { ServiceRoutes } from "../modules/services/service.routes";
+import swagger from "../../swagger";
 
 const router = express.Router();
 
 const allRoutes = [
+  {
+    path: "/api-docs",
+    route: swagger,
+  },
   {
     path: "/auth",
     route: AuthRoute,
