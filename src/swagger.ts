@@ -12,12 +12,12 @@ const options: swaggerJSDOC.Options = {
       version: "1.0.0",
       description: "API documenation for Housekeeping Booking System",
     },
-    tags: [
-      {
-        name: "Auth",
-        description: "Authentication api",
-      },
-    ],
+    // tags: [
+    //   {
+    //     name: "Auth",
+    //     description: "Authentication api",
+    //   },
+    // ],
     servers: [
       {
         url: `http://localhost:5000/api/v1`,
@@ -26,20 +26,25 @@ const options: swaggerJSDOC.Options = {
     ],
     components: {
       securitySchemes: {
-        Bearer: {
+        BearerAuth: {
           type: "http",
           scheme: "bearer",
           beaerFormat: "JWT",
-          description: "JWT key authorization for API",
+          description: "Enter JWT token (without Bearer prefix)",
         },
-        ApiKeyAuth: {
-          type: "apikey",
-          in: "header",
-          name: "x-api-key",
-          description: "API key authorization for API",
-        },
+        // ApiKeyAuth: {
+        //   type: "apikey",
+        //   in: "header",
+        //   name: "x-api-key",
+        //   description: "API key authorization for API",
+        // },
       },
     },
+    security: [
+      {
+        BearerAuth: [],
+      },
+    ],
   },
   //   apis: ["./src/app/routes/*.ts"],
   apis: ["./src/**/*.ts"],
