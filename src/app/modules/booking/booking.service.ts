@@ -1,11 +1,11 @@
 import { FilterQuery, SortOrder } from "mongoose";
-import { BookingModel } from "./booking.model";
 import { IBooking } from "./booking.interface";
 import paginationHelper from "../../helpers/paginationHelper";
 import {
   IGenericDataWithMeta,
   IPaginationOption,
 } from "../../../interfaces/sharedInterface";
+import BookingModel from "./booking.model";
 
 const createBooking = async (payload: IBooking) => {
   return await BookingModel.create(payload);

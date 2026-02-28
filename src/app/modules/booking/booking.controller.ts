@@ -7,39 +7,22 @@ import { sendErrorResponse } from "../../../shared/sendError";
 import pick from "../../../shared/pick";
 import { paginationFields } from "../../../constants/shared.constant";
 import { BOOKING_FILTER_FIELDS } from "./booking.constant";
-import {
-  createBookingZodSchema,
-  updateBookingZodSchema,
-} from "./booking.validation";
+import { createBookingZodSchema } from "./booking.validation";
 
 const createBookingController = catchAsync(
   async (req: Request, res: Response) => {
-    // ✅ Validate data with Zod schema
-    const result = createBookingZodSchema.safeParse(req.body);
-    const userId = req.user?.userId;
+    console.log("create data", req.body);
 
-    if (!userId) {
-      return sendErrorResponse(res, {
-        statusCode: httpStatus.UNAUTHORIZED,
-        message: "Unauthorized",
-      });
-    }
+    //   const booking = await BookingService.createBooking({
+    //     ...result.data,
+    //     user: userId,
+    //   } as any);
 
-    if (!result.success) {
-      return sendErrorResponse(res, result.error);
-    }
-
-    // ✅ Data is valid
-    const booking = await BookingService.createBooking({
-      ...result.data,
-      user: userId,
-    } as any);
-
-    sendSuccessResponse(res, {
-      statusCode: httpStatus.OK,
-      message: "Booking created successfully",
-      data: booking,
-    });
+    //   sendSuccessResponse(res, {
+    //     statusCode: httpStatus.OK,
+    //     message: "Booking created successfully",
+    //     data: booking,
+    //   });
   },
 );
 

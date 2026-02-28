@@ -1,27 +1,33 @@
 import { Types } from "mongoose";
+import { BOOKING_STATUS_ARRAY } from "./booking.constant";
 
-export type BookingStatus = "pending" | "confirmed" | "completed" | "canceled";
+export type BookingStatus = (typeof BOOKING_STATUS_ARRAY)[number];
 
 export interface IBooking {
-  user: Types.ObjectId;
-  service: string;
-  serviceId: Types.ObjectId;
-  productOption: string;
-  durationHours: number;
-  addOns: {
-    fridge: boolean;
-    oven: boolean;
-    windows: boolean;
-    balcony: boolean;
+  userId: Types.ObjectId;
+  bookingStatus: BookingStatus;
+
+  address?: {
+    address1?: string;
+    address2?: string;
+    city?: string;
+    postcode?: string;
   };
-  extraHours: number;
-  address: {
-    city: string;
-    line1: string;
-    line2?: string;
-    postcode: string;
+
+  service: {
+    serviceId: string;
+    serviceName: string;
   };
-  preferredDate: Date;
-  preferredTimeSlots: string[];
-  status: BookingStatus;
+
+  productOption?: {
+    addOns?: string;
+    duration?: number;
+    totalPrice?: number;
+    extraHours?: number;
+  };
+
+  timeSlots: {
+    selectedDate: Date;
+    selectedSlots: number;
+  };
 }
