@@ -35,7 +35,7 @@ const registerNewUser = async (userData: IUser): Promise<IUserResponse> => {
 
   // //! Let's give user secret token
   const accessToken = jwtHelpers.createToken(
-    { userId: result._id },
+    { userId: result._id, role: result.role },
     config.jwt.accessToken as Secret,
     config.jwt.accessToken_expires_in as string,
   );
@@ -65,7 +65,7 @@ const loginExistingUser = async (
   }
 
   const accessToken = jwtHelpers.createToken(
-    { userId: isUserExist._id, userEmail: isUserExist.email },
+    { userId: isUserExist._id, role: isUserExist.role },
     config.jwt.accessToken as Secret,
     config.jwt.accessToken_expires_in as string,
   );
