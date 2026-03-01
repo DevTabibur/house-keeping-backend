@@ -20,14 +20,16 @@ export interface IBooking {
   };
 
   productOption?: {
-    addOns?: string;
-    duration?: number;
+    addOns?: [string];
+    duration?: [number];
     totalPrice?: number;
-    extraHours?: number;
+    extraHours?: [number];
   };
 
   timeSlots: {
-    selectedDate: Date;
-    selectedSlots: number;
+    selectedDate: [Date];
+    selectedSlots: [number];
   };
+  isConfirm: boolean; //  true,
+  isCancel: boolean; // false,
 }

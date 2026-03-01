@@ -18,6 +18,9 @@ const router = Router();
  * @swagger
  * components:
  *   schemas:
+ *     userId:
+ *       type: string
+ *
  *     Address:
  *       type: object
  *       properties:
@@ -136,7 +139,7 @@ const router = Router();
  *           schema:
  *             $ref: '#/components/schemas/CreateBookingInput'
  *     responses:
- *       201:
+ *       200:
  *         description: Booking created successfully
  *         content:
  *           application/json:
