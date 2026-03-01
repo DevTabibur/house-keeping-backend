@@ -42,6 +42,7 @@ const registerNewUser = async (userData: IUser): Promise<IUserResponse> => {
 
   return {
     accessToken,
+    data: { role: result.role },
   };
 };
 
@@ -70,7 +71,7 @@ const loginExistingUser = async (
     config.jwt.accessToken_expires_in as string,
   );
 
-  return { accessToken };
+  return { accessToken, data: { role: isUserExist.role } };
 };
 
 const ChangePassword = async (
