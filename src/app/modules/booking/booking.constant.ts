@@ -13,3 +13,7 @@ export const BOOKING_SEARCH_FIELDS = [
   "address.postcode",
 ];
 export const BOOKING_FILTER_FIELDS = ["status", "serviceId", "preferredDate"];
+
+export type IBookingFilters = {
+  searchTerm?: string;
+};
