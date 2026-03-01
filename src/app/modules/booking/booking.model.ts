@@ -1,82 +1,56 @@
-import mongoose, { Schema } from "mongoose";
-import { BookingInterface } from "./booking.validation";
+import mongoose, { model, models, Schema } from "mongoose";
+import { IBooking } from "./booking.interface";
+import { BOOKING_STATUS, BOOKING_STATUS_ARRAY } from "./booking.constant";
 
-const BookingSchema = new Schema<BookingInterface>(
+const BookingSchema = new Schema<IBooking>(
   {
-    service: {
-      type: String,
-      default: null,
-    },
-
-    serviceId: {
+    userId: {
       type: Schema.Types.ObjectId,
-      ref: "Service",
+      ref: "User",
       required: true,
     },
 
-    productOption: {
+    bookingStatus: {
       type: String,
-      default: null,
-    },
-
-    durationHours: {
-      type: Number,
-      default: 3,
+      enum: BOOKING_STATUS_ARRAY,
+      default: BOOKING_STATUS.PENDING,
       required: true,
-    },
-
-    addOns: {
-      fridge: {
-        type: Boolean,
-        default: false,
-      },
-      oven: {
-        type: Boolean,
-        default: false,
-      },
-      windows: {
-        type: Boolean,
-        default: false,
-      },
-      balcony: {
-        type: Boolean,
-        default: false,
-      },
-    },
-
-    extraHours: {
-      type: Number,
-      default: 0,
     },
 
     address: {
-      city: {
+      address1: { type: String },
+      address2: { type: String },
+      city: { type: String },
+      postcode: { type: String },
+    },
+
+    service: {
+      serviceId: {
         type: String,
         required: true,
       },
-      line1: {
-        type: String,
-        required: true,
-      },
-      line2: {
-        type: String,
-        default: "",
-      },
-      postcode: {
+      serviceName: {
         type: String,
         required: true,
       },
     },
 
-    preferredDate: {
-      type: Date,
-      required: true,
+    productOption: {
+      addOns: { type: String },
+      duration: { type: Number },
+      totalPrice: { type: Number },
+      extraHours: { type: Number },
     },
 
-    preferredTimeSlots: {
-      type: [String],
-      default: [],
-      required: true,
+    timeSlots: {
+      selectedDate: {
+        type: Date,
+        // required: true,
+      },
+      selectedSlots: {
+        type: Number,
+        // required: true,
+      },
     },
   },
   {
@@ -84,6 +58,6 @@ const BookingSchema = new Schema<BookingInterface>(
   },
 );
 
-export const BookingModel =
-  mongoose.models.Booking ||
-  mongoose.model<BookingInterface>("Booking", BookingSchema);
+const BookingModel = model<IBooking>("Booking", BookingSchema);
+
+export default BookingModel;

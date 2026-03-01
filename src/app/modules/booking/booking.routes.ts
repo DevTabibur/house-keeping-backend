@@ -2,6 +2,8 @@ import { Router } from "express";
 import { BookingController } from "./booking.controller";
 import authGuard from "../../middlewares/authGuard";
 import { USER_ROLE_ENUM } from "../user/user.constant";
+import zodValidateRequest from "../../middlewares/zodValidateRequest";
+import { createBookingZodSchema } from "./booking.validation";
 
 const router = Router();
 
@@ -16,78 +18,106 @@ const router = Router();
  * @swagger
  * components:
  *   schemas:
- *     Booking:
+ *     Address:
  *       type: object
  *       properties:
- *         _id:
+ *         address1:
  *           type: string
- *         service:
+ *           example: "221B Baker Street"
+ *         address2:
  *           type: string
+ *           example: "Apt 4B"
+ *         city:
+ *           type: string
+ *           example: "London"
+ *         postcode:
+ *           type: string
+ *           example: "NW1 6XE"
+ *
+ *     Service:
+ *       type: object
+ *       required:
+ *         - serviceId
+ *         - serviceName
+ *       properties:
  *         serviceId:
  *           type: string
- *         productOption:
+ *           example: "65f1c2a3e4b5c6d7e8f90123"
+ *         serviceName:
  *           type: string
- *         durationHours:
- *           type: number
+ *           example: "Regular Cleaning"
+ *
+ *     ProductOption:
+ *       type: object
+ *       properties:
  *         addOns:
- *           type: object
- *           properties:
- *             fridge: { type: boolean }
- *             oven: { type: boolean }
- *             windows: { type: boolean }
- *             balcony: { type: boolean }
+ *           type: string
+ *           example: "fridge, oven"
+ *         duration:
+ *           type: number
+ *           example: 3
+ *         totalPrice:
+ *           type: number
+ *           example: 120
  *         extraHours:
  *           type: number
- *         address:
- *           type: object
- *           properties:
- *             city: { type: string }
- *             line1: { type: string }
- *             line2: { type: string }
- *             postcode: { type: string }
- *         preferredDate:
+ *           example: 1
+ *
+ *     TimeSlots:
+ *       type: object
+ *       required:
+ *         - selectedDate
+ *         - selectedSlots
+ *       properties:
+ *         selectedDate:
  *           type: string
  *           format: date-time
- *         preferredTimeSlots:
- *           type: array
- *           items: { type: string }
- *         status:
- *           type: string
- *           enum: [pending, confirmed, completed, canceled]
+ *           example: "2024-03-01T09:00:00.000Z"
+ *         selectedSlots:
+ *           type: number
+ *           example: 2
  *
  *     CreateBookingInput:
  *       type: object
  *       required:
  *         - service
- *         - serviceId
- *         - productOption
- *         - durationHours
- *         - address
- *         - preferredDate
- *         - preferredTimeSlots
+ *         - timeSlots
  *       properties:
- *         service: { type: string, example: "Regular Cleaning" }
- *         serviceId: { type: string, example: "60d0fe4f5311236168a109ca" }
- *         productOption: { type: string, example: "3 Bedroom" }
- *         durationHours: { type: number, example: 3 }
- *         addOns:
- *           type: object
- *           properties:
- *             fridge: { type: boolean, default: false }
- *             oven: { type: boolean, default: false }
- *             windows: { type: boolean, default: false }
- *             balcony: { type: boolean, default: false }
- *         extraHours: { type: number, default: 0 }
  *         address:
- *           type: object
- *           required: [city, line1, postcode]
- *           properties:
- *             city: { type: string, example: "London" }
- *             line1: { type: string, example: "123 Street Name" }
- *             line2: { type: string }
- *             postcode: { type: string, example: "SW1A 1AA" }
- *         preferredDate: { type: string, format: date, example: "2024-03-01" }
- *         preferredTimeSlots: { type: array, items: { type: string }, example: ["09:00 - 10:00"] }
+ *           $ref: '#/components/schemas/Address'
+ *         service:
+ *           $ref: '#/components/schemas/Service'
+ *         productOption:
+ *           $ref: '#/components/schemas/ProductOption'
+ *         timeSlots:
+ *           $ref: '#/components/schemas/TimeSlots'
+ *
+ *     Booking:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           example: "665fa1234bcdef567890abcd"
+ *         userId:
+ *           type: string
+ *           example: "665fa1234bcdef567890aaaa"
+ *         bookingStatus:
+ *           type: string
+ *           enum: [pending, confirmed, completed, canceled]
+ *         address:
+ *           $ref: '#/components/schemas/Address'
+ *         service:
+ *           $ref: '#/components/schemas/Service'
+ *         productOption:
+ *           $ref: '#/components/schemas/ProductOption'
+ *         timeSlots:
+ *           $ref: '#/components/schemas/TimeSlots'
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
  */
 
 /**
@@ -95,6 +125,7 @@ const router = Router();
  * /booking/create:
  *   post:
  *     summary: Create a new booking
+ *     description: Creates a new housekeeping booking. Booking status defaults to "pending".
  *     tags: [Booking]
  *     security:
  *       - BearerAuth: []
@@ -105,14 +136,22 @@ const router = Router();
  *           schema:
  *             $ref: '#/components/schemas/CreateBookingInput'
  *     responses:
- *       200:
+ *       201:
  *         description: Booking created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Booking'
+ *       400:
+ *         description: Validation error
  *       401:
  *         description: Unauthorized
  */
+
 router.post(
   "/create",
   authGuard(USER_ROLE_ENUM.ADMIN, USER_ROLE_ENUM.GUEST, USER_ROLE_ENUM.EDITOR),
+  zodValidateRequest(createBookingZodSchema),
   BookingController.createBookingController,
 );
 
