@@ -214,19 +214,6 @@ router.get(
  *         description: Filter by booking status
  *
  *       - in: query
- *         name: service.serviceId
- *         schema:
- *           type: string
- *         description: Filter by service ID
- *
- *       - in: query
- *         name: timeSlots.selectedDate
- *         schema:
- *           type: string
- *           format: date
- *         description: Filter by selected date
- *
- *       - in: query
  *         name: page
  *         schema:
  *           type: integer
