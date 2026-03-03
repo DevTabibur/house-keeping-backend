@@ -192,6 +192,109 @@ router.get(
 
 /**
  * @swagger
+ * /booking/my-list:
+ *   get:
+ *     summary: Get my bookings with filter, search and pagination
+ *     description: Returns authenticated user's booking list with optional search, filtering, sorting and pagination.
+ *     tags: [Booking]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: searchTerm
+ *         schema:
+ *           type: string
+ *         description: Search by service name, city, postcode etc.
+ *
+ *       - in: query
+ *         name: bookingStatus
+ *         schema:
+ *           type: string
+ *           enum: [pending, confirmed, completed, canceled]
+ *         description: Filter by booking status
+ *
+ *       - in: query
+ *         name: service.serviceId
+ *         schema:
+ *           type: string
+ *         description: Filter by service ID
+ *
+ *       - in: query
+ *         name: timeSlots.selectedDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Filter by selected date
+ *
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of items per page
+ *
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *           example: createdAt
+ *         description: Field name to sort by
+ *
+ *       - in: query
+ *         name: sortOrder
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *         description: Sorting order
+ *
+ *     responses:
+ *       200:
+ *         description: Booking list fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     page:
+ *                       type: integer
+ *                       example: 1
+ *                     limit:
+ *                       type: integer
+ *                       example: 10
+ *                     total:
+ *                       type: integer
+ *                       example: 25
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Booking'
+ *       401:
+ *         description: Unauthorized
+ */
+
+router.get(
+  "/my-list",
+  authGuard(
+    USER_ROLE_ENUM.USER,
+    USER_ROLE_ENUM.ADMIN,
+    USER_ROLE_ENUM.EDITOR,
+    USER_ROLE_ENUM.GUEST,
+  ),
+  BookingController.GetMyBookings,
+);
+
+/**
+ * @swagger
  * /booking/{id}:
  *   get:
  *     summary: Get single booking details

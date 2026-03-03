@@ -6,9 +6,15 @@ import { sendSuccessResponse } from "../../../shared/sendSuccessResponse";
 import { sendErrorResponse } from "../../../shared/sendError";
 import pick from "../../../shared/pick";
 import { paginationFields } from "../../../constants/shared.constant";
-import { BOOKING_FILTER_FIELDS } from "./booking.constant";
+import {
+  BOOKING_FILTER_FIELDS,
+  MY_BOOKING_LIST_FILTER_FIELDS,
+} from "./booking.constant";
 import { createBookingZodSchema } from "./booking.validation";
 import { IPaginationOption } from "../../../interfaces/sharedInterface";
+import ApiError from "../../../errors/ApiError";
+import config from "../../../config";
+import jwt from "jsonwebtoken";
 
 const createBookingController = catchAsync(
   async (req: Request, res: Response) => {
@@ -39,7 +45,7 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleBooking = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  console.log("id", id);
+  // console.log("id", id);
   const result = await BookingService.getSingleBooking(id);
 
   sendSuccessResponse(res, {
@@ -52,7 +58,7 @@ const getSingleBooking = catchAsync(async (req: Request, res: Response) => {
 const updateBooking = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const updateInfo = req.body;
-  console.log("id", id);
+  // console.log("id", id);
 
   const result = await BookingService.updateBooking(id, updateInfo);
 
@@ -74,10 +80,60 @@ const deleteBooking = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const GetMyBookings = catchAsync(async (req: Request, res: Response) => {
+  // console.log("hello")
+  const authHeader = req.headers.authorization;
+  // console.log("authHeader", authHeader)
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "No token provided");
+  }
+
+  const token = authHeader.split(" ")[1]; // Extract token from "Bearer <token>"
+
+  // try {
+  if (!config.jwt.accessToken) {
+    throw new ApiError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      "JWT secret is not defined",
+    );
+  }
+
+  // Decode and verify the token
+  const decoded = jwt.verify(token, config.jwt.accessToken) as {
+    userId: string;
+  };
+
+  const { userId } = decoded;
+
+  if (!userId) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid token");
+  }
+  // console.log("userId", userId);
+
+  const filters = pick(req.query, [
+    "searchTerm",
+    ...MY_BOOKING_LIST_FILTER_FIELDS,
+  ]);
+  const paginationOption: IPaginationOption = pick(req.query, paginationFields);
+
+  const result = await BookingService.GetMyBookings(
+    userId,
+    filters,
+    paginationOption,
+  );
+
+  sendSuccessResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "My Booking list fetched successfully",
+    data: result,
+  });
+});
+
 export const BookingController = {
   createBookingController,
   getAllBookings,
   getSingleBooking,
   updateBooking,
   deleteBooking,
+  GetMyBookings,
 };

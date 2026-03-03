@@ -12,7 +12,17 @@ export const BOOKING_SEARCH_FIELDS = [
   "address.city",
   "address.postcode",
 ];
+export const MY_BOOKING_LIST_SEARCH_FIELDS = [
+  "service",
+  "address.city",
+  "address.postcode",
+];
 export const BOOKING_FILTER_FIELDS = ["status", "serviceId", "preferredDate"];
+export const MY_BOOKING_LIST_FILTER_FIELDS = [
+  "status",
+  "serviceId",
+  "preferredDate",
+];
 
 export type IBookingFilters = {
   searchTerm?: string;

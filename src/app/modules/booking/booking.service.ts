@@ -6,7 +6,11 @@ import {
   IPaginationOption,
 } from "../../../interfaces/sharedInterface";
 import BookingModel from "./booking.model";
-import { BOOKING_SEARCH_FIELDS, IBookingFilters } from "./booking.constant";
+import {
+  BOOKING_SEARCH_FIELDS,
+  IBookingFilters,
+  MY_BOOKING_LIST_SEARCH_FIELDS,
+} from "./booking.constant";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
 
@@ -123,6 +127,64 @@ const deleteBooking = async (id: string) => {
   return await BookingModel.findByIdAndDelete(id);
 };
 
+const GetMyBookings = async (
+  id: string,
+  filters: IBookingFilters,
+  paginationOption: IPaginationOption,
+): Promise<IGenericDataWithMeta<IBooking[]>> => {
+  const { searchTerm, ...filtersFields } = filters;
+
+  // console.log("my list id", id);
+  const andConditions = [];
+
+  andConditions.push({
+    userId: id,
+  });
+
+  if (searchTerm) {
+    andConditions.push({
+      $or: MY_BOOKING_LIST_SEARCH_FIELDS.map((field) => ({
+        [field]: new RegExp(searchTerm, "i"),
+      })),
+    });
+  }
+
+  if (Object.keys(filtersFields).length) {
+    const fieldConditions = Object.entries(filtersFields).map(
+      ([key, value]) => ({
+        [key]: value,
+      }),
+    );
+    andConditions.push({ $and: fieldConditions });
+  }
+
+  const whereCondition = andConditions.length ? { $and: andConditions } : {};
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelper(paginationOption);
+
+  const sortCondition: { [key: string]: SortOrder } = {};
+  if (sortBy && sortOrder) {
+    sortCondition[sortBy] = sortOrder;
+  }
+
+  const result = await BookingModel.find(whereCondition)
+    .sort(sortCondition)
+    .skip(skip)
+    .limit(limit as number);
+
+  const total = await BookingModel.countDocuments(whereCondition);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
 export const BookingService = {
   createBooking,
   getMyBookings,
@@ -131,4 +193,5 @@ export const BookingService = {
   getAllBookings,
   updateBooking,
   deleteBooking,
+  GetMyBookings,
 };
