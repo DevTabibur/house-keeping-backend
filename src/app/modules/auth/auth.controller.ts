@@ -46,38 +46,38 @@ const ChangePassword = catchAsync(async (req: Request, res: Response) => {
 
   const token = authHeader.split(" ")[1]; // Extract token from "Bearer <token>"
 
-  try {
-    if (!config.jwt.accessToken) {
-      throw new ApiError(
-        httpStatus.INTERNAL_SERVER_ERROR,
-        "JWT secret is not defined",
-      );
-    }
-
-    // Decode and verify the token
-    const decoded = jwt.verify(token, config.jwt.accessToken) as {
-      userId: string;
-    };
-
-    const { userId } = decoded;
-
-    if (!userId) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid token");
-    }
-
-    const { oldPassword, newPassword } = req.body;
-
-    // Call the AuthService to handle password change
-    await AuthService.ChangePassword(userId, oldPassword, newPassword);
-
-    sendSuccessResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Password changed successfully",
-    });
-  } catch (error) {
-    console.error("Error in password change:", error); // Log error details.
+  // try {
+  if (!config.jwt.accessToken) {
+    throw new ApiError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      "JWT secret is not defined",
+    );
   }
+
+  // Decode and verify the token
+  const decoded = jwt.verify(token, config.jwt.accessToken) as {
+    userId: string;
+  };
+
+  const { userId } = decoded;
+
+  if (!userId) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid token");
+  }
+
+  const { oldPassword, newPassword } = req.body;
+
+  // Call the AuthService to handle password change
+  await AuthService.ChangePassword(userId, oldPassword, newPassword);
+
+  sendSuccessResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Password changed successfully",
+  });
+  // } catch (error) {
+  //   console.error("Error in password change:", error); // Log error details.
+  // }
 });
 
 //!===========================================================>>>
