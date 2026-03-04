@@ -176,7 +176,7 @@ router.post(
  *         name: searchTerm
  *         schema: { type: string }
  *       - in: query
- *         name: status
+ *         name: bookingStatus
  *         schema: { type: string, enum: [pending, confirmed, completed, canceled] }
  *       - in: query
  *         name: page
