@@ -48,7 +48,8 @@ const BookingSchema = new Schema<IBooking>(
         // required: true,
       },
       selectedSlots: {
-        type: Number,
+        type: [String],
+        default: [],
         // required: true,
       },
     },

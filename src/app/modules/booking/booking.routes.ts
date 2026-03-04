@@ -79,7 +79,7 @@ const router = Router();
  *           example: "2024-03-01T09:00:00.000Z"
  *         selectedSlots:
  *           type: number
- *           example: 2
+ *           example:  ["09:00 AM", "10:00 AM"]
  *
  *     CreateBookingInput:
  *       type: object

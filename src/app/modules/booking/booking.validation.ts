@@ -176,11 +176,19 @@ export const createBookingZodSchema = z.object({
             required_error: "Selected date is required",
           }),
         ),
+        // selectedSlots: z
+        //   .number({
+        //     required_error: "Selected slot is required",
+        //   })
+        //   .min(1),
         selectedSlots: z
-          .number({
-            required_error: "Selected slot is required",
-          })
-          .min(1),
+          .array(
+            z.string({
+              required_error: "Slot must be a string",
+            }),
+          )
+          .min(1, "At least one time slot is required")
+          .optional(),
       })
       .optional(),
   }),
