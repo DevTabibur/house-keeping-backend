@@ -54,7 +54,7 @@ const router = Router();
  *       properties:
  *         addOns:
  *           type: string
- *           example: "fridge, oven"
+ *           example: ["fridge", "oven"]
  *         duration:
  *           type: number
  *           example: 3
@@ -78,6 +78,14 @@ const router = Router();
  *         selectedSlots:
  *           type: number
  *           example: 2
+ *
+ *     isConfirm:
+ *       type: boolean
+ *       example: true
+ *
+ *     isCancel:
+ *       type: boolean
+ *       example: false
  *
  *     CreateBookingInput:
  *       type: object

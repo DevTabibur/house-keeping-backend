@@ -36,7 +36,7 @@ const BookingSchema = new Schema<IBooking>(
     },
 
     productOption: {
-      addOns: { type: String },
+      addOns: { type: [String], default: [] },
       duration: { type: Number },
       totalPrice: { type: Number },
       extraHours: { type: Number },
@@ -51,6 +51,14 @@ const BookingSchema = new Schema<IBooking>(
         type: Number,
         // required: true,
       },
+    },
+    isConfirm: {
+      type: Boolean,
+      default: true,
+    },
+    isCancel: {
+      type: Boolean,
+      default: false,
     },
   },
   {
