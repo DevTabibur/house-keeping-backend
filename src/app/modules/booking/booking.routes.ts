@@ -20,6 +20,8 @@ const router = Router();
  *   schemas:
  *     userId:
  *       type: string
+ *
+ *       example: "69a681b3b39dec8230bed1d0"
  *     Address:
  *       type: object
  *       properties:
@@ -79,20 +81,16 @@ const router = Router();
  *           type: number
  *           example: 2
  *
- *     isConfirm:
- *       type: boolean
- *       example: true
- *
- *     isCancel:
- *       type: boolean
- *       example: false
- *
  *     CreateBookingInput:
  *       type: object
  *       required:
+ *         - userId
  *         - service
  *         - timeSlots
  *       properties:
+ *         userId:
+ *           type: string
+ *           example: "69a681b3b39dec8230bed1d0"
  *         address:
  *           $ref: '#/components/schemas/Address'
  *         service:

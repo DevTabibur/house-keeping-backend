@@ -139,7 +139,7 @@ export const createBookingZodSchema = z.object({
 
     productOption: z
       .object({
-        addOns: z.string().optional(),
+        addOns: z.array(z.string()).optional(),
         duration: z
           .number({
             invalid_type_error: "Duration must be a number",
