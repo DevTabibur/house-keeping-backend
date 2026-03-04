@@ -1,6 +1,7 @@
 import mongoose, { model, models, Schema } from "mongoose";
 import { IBooking } from "./booking.interface";
 import { BOOKING_STATUS, BOOKING_STATUS_ARRAY } from "./booking.constant";
+import { SERVICE_LIST_ARRAY } from "../services/service.constant";
 
 const BookingSchema = new Schema<IBooking>(
   {
@@ -27,6 +28,7 @@ const BookingSchema = new Schema<IBooking>(
     service: {
       serviceId: {
         type: String,
+        enum: SERVICE_LIST_ARRAY,
         required: true,
       },
       serviceName: {

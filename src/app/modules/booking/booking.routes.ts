@@ -46,10 +46,10 @@ const router = Router();
  *       properties:
  *         serviceId:
  *           type: string
- *           example: "65f1c2a3e4b5c6d7e8f90123"
+ *           example: "general_cleaning"
  *         serviceName:
  *           type: string
- *           example: "Regular Cleaning"
+ *           example: "General Cleaning"
  *
  *     ProductOption:
  *       type: object

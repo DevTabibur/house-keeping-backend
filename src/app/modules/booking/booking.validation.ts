@@ -101,6 +101,7 @@
 import { z } from "zod";
 import mongoose from "mongoose";
 import { BOOKING_STATUS_ARRAY } from "./booking.constant";
+import { SERVICE_LIST_ARRAY } from "../services/service.constant";
 
 /**
  * Helper: ObjectId validator
@@ -129,7 +130,8 @@ export const createBookingZodSchema = z.object({
       .optional(),
 
     service: z.object({
-      serviceId: objectIdSchema,
+      // serviceId: objectIdSchema,
+      serviceId: z.enum(SERVICE_LIST_ARRAY as [string, ...string[]]),
       serviceName: z
         .string({
           required_error: "Service name is required",
