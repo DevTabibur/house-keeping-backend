@@ -1,67 +1,78 @@
-// import BlogPostModel from "../blog/blog.model";
-// import CategoryModel from "../blog/category/category.model";
-// import CommentModel from "../blog/comment/comment.model";
-// import TagModel from "../blog/tag/tag.model";
-// import UserModel from "../user/user.model";
-// import { IDashboardAnalytics } from "./analytics.interface";
+import BookingModel from "../booking/booking.model";
+import UserModel from "../user/user.model";
+import { IDashboardAnalytics, monthlyUsers } from "./analytics.interface";
 
-// const getDashboardAnalytics = async (): Promise<IDashboardAnalytics> => {
-//   const totalBlogs = await BlogPostModel.countDocuments();
-//   const totalUsers = await UserModel.countDocuments();
-//   const totalComments = await CommentModel.countDocuments();
-//   const totalCategories = await CategoryModel.countDocuments();
-//   const totalTags = await TagModel.countDocuments();
+const getDashboardAnalytics = async (): Promise<IDashboardAnalytics> => {
+  const totalUsers = await UserModel.countDocuments();
 
-//   const totalViewsResult = await BlogPostModel.aggregate([
-//     {
-//       $group: {
-//         _id: null,
-//         totalViews: { $sum: "$analytics.views" },
-//       },
-//     },
-//   ]);
+  const activeUsers = await UserModel.countDocuments({ status: "active" });
 
-//   const totalViews =
-//     totalViewsResult.length > 0 ? totalViewsResult[0].totalViews : 0;
+  const totalOrder = await BookingModel.countDocuments();
 
-//   const monthlyBlogs = await BlogPostModel.aggregate([
-//     {
-//       $match: { createdAt: { $ne: null } },
-//     },
-//     {
-//       $group: {
-//         _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
-//         count: { $sum: 1 },
-//       },
-//     },
-//     { $sort: { _id: 1 } },
-//     { $limit: 12 },
-//   ]);
+  const completedOrder = await BookingModel.countDocuments({
+    status: "completed",
+  });
 
-//   const monthlyUsers = await UserModel.aggregate([
-//     {
-//       $match: { createdAt: { $ne: null } },
-//     },
-//     {
-//       $group: {
-//         _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
-//         count: { $sum: 1 },
-//       },
-//     },
-//     { $sort: { _id: 1 } },
-//     { $limit: 12 },
-//   ]);
+  const pendingOrder = await BookingModel.countDocuments({
+    status: "pending",
+  });
 
-//   return {
-//     totalBlogs,
-//     totalUsers,
-//     totalComments,
-//     totalCategories,
-//     totalTags,
-//     totalViews,
-//     monthlyBlogs,
-//     monthlyUsers,
-//   };
-// };
+  const canceledOrder = await BookingModel.countDocuments({
+    status: "canceled",
+  });
 
-// export const AnalyticsService = { getDashboardAnalytics };
+  //   const incomeResult = await PaymentModel.aggregate([
+  //     {
+  //       $group: {
+  //         _id: null,
+  //         total: { $sum: "$amount" },
+  //       },
+  //     },
+  //   ]);
+
+  //   const totalIncome = incomeResult[0]?.total || 0;
+
+  //   const refundResult = await PaymentModel.aggregate([
+  //     {
+  //       $match: { status: "refund" },
+  //     },
+  //     {
+  //       $group: {
+  //         _id: null,
+  //         total: { $sum: "$amount" },
+  //       },
+  //     },
+  //   ]);
+
+  //   const refund = refundResult[0]?.total || 0;
+
+  const monthlyUsers: monthlyUsers[] = await UserModel.aggregate([
+    {
+      $match: { createdAt: { $ne: null } },
+    },
+    {
+      $group: {
+        _id: {
+          $dateToString: { format: "%Y-%m", date: "$createdAt" },
+        },
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { _id: 1 } },
+    { $limit: 12 },
+  ]);
+
+  return {
+    totalUsers,
+    activeUsers,
+    totalOrder,
+    completedOrder,
+    pendingOrder,
+    canceledOrder,
+    // totalIncome,
+    // refund,
+    monthlyUsers,
+  };
+};
+
+export const AnalyticsService = { getDashboardAnalytics };

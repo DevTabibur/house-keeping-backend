@@ -3,7 +3,6 @@ import { AuthRoute } from "../modules/auth/auth.routes";
 import { BlogRoute } from "../modules/blog/blog.route";
 import { ContactRoute } from "../modules/contact/contact.routes";
 import { UserRoute } from "../modules/user/user.routes";
-// import { AnalyticsRoute } from "../modules/analytics/analytics.routes";
 import { CategoryRoute } from "../modules/blog/category/category.routes";
 import { TrashRoute } from "../modules/trash/trash.route";
 import { CommentRoute } from "../modules/blog/comment/comment.route";
@@ -14,6 +13,7 @@ import { BookingRoute } from "../modules/booking/booking.routes";
 import { BillingRoute } from "../modules/billing/billing.routes";
 import { ServiceRoutes } from "../modules/services/service.routes";
 import swagger from "../../swagger";
+import { AnalyticsRoute } from "../modules/analytics/analytics.routes";
 
 const router = express.Router();
 
@@ -74,10 +74,10 @@ const allRoutes = [
     path: "/sent-message",
     route: SentMessageRoute,
   },
-  // {
-  //   path: "/analytics",
-  //   route: AnalyticsRoute,
-  // },
+  {
+    path: "/analytics",
+    route: AnalyticsRoute,
+  },
   {
     path: "/system-settings",
     route: SystemSettingsRoute,
