@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { AnalyticsController } from "./analytics.controller";
+import { USER_ROLE_ENUM } from "../user/user.constant";
 
 const router = Router();
 
@@ -17,6 +18,10 @@ const router = Router();
  *       500:
  *         description: Internal server error
  */
-router.get("/", AnalyticsController.getDashboardAnalytics);
+router.get(
+  "/",
+  USER_ROLE_ENUM.ADMIN,
+  AnalyticsController.getDashboardAnalytics,
+);
 
 export const AnalyticsRoute = router;
