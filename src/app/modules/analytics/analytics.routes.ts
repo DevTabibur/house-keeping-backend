@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { AnalyticsController } from "./analytics.controller";
 import { USER_ROLE_ENUM } from "../user/user.constant";
+import authGuard from "../../middlewares/authGuard";
 
 const router = Router();
 
@@ -20,7 +21,7 @@ const router = Router();
  */
 router.get(
   "/",
-  USER_ROLE_ENUM.ADMIN,
+  authGuard(USER_ROLE_ENUM.ADMIN),
   AnalyticsController.getDashboardAnalytics,
 );
 
